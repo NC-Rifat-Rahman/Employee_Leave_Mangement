@@ -26,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     JwtFilter jwtFilter;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception
+    {
         auth.userDetailsService(customerUsersDetailsService);
     }
 
@@ -38,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
         return super.authenticationManagerBean();
     }
 

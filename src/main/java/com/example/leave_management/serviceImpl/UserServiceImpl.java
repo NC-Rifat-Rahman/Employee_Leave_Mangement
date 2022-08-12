@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService
 
     private boolean validateSighnUpMap(Map<String,String> requestMap)
     {
-        // It will come from UI(User class)
         if(requestMap.containsKey("name")
                 && requestMap.containsKey("email") && requestMap.containsKey("password"))
         {
@@ -95,11 +94,22 @@ public class UserServiceImpl implements UserService
     private User getUserFromMap(Map<String,String> requestMap)
     {
         User user = new User();
+        User user1 = new User();
         user.setName(requestMap.get("name"));
         user.setEmail(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
         user.setStatus("false");
         user.setRole("user");
+
+        user1.setName("manager");
+        user1.setEmail("manager@gmail.com");
+        user1.setPassword("123456");
+        user1.setRole("manager");
+        user1.setStatus("true");
+
+        userRepository.save(user1);
+
+        user.setManagerId(user1);
 
         return user;
     }
@@ -171,7 +181,7 @@ public class UserServiceImpl implements UserService
                 {
                     userRepository.updateStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
 
-                    sendMailToAllAdmin(requestMap.get("status"),optional.get().getEmail(),userRepository.getAllAdmin());
+                    //sendMailToAllAdmin(requestMap.get("status"),optional.get().getEmail(),userRepository.getAllAdmin());
 
                     return ApplicationUtils.getResponseEntity("User status updated successfully!",HttpStatus.OK);
                 }

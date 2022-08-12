@@ -77,6 +77,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService
             leaveType.setLeaveTypeId(Integer.parseInt(requestMap.get("leaveTypeId")));
         }
         leaveType.setName(requestMap.get("name"));
+        leaveType.setRemark(requestMap.get("remark"));
         return leaveType;
     }
 }

@@ -6,7 +6,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @NamedQuery(name = "User.findByEmailId",query = "select u from User u where u.email=:email")
 
@@ -46,7 +45,7 @@ public class User implements Serializable
     private String role;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="manager")
-    private User manager;
+    @JoinColumn(name="manager_id")
+    private User managerId;
 
 }

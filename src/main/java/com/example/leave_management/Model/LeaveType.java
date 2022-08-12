@@ -34,7 +34,7 @@ public class LeaveType implements Serializable
     private LeaveTypeStatus status;
 
  */
-    @Column(name="status")
-    private String status;
+    @Column(name="remark")
+    private String remark;
 }
 

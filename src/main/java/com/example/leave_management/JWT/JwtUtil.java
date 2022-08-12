@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil
 {
-    private String secret = "btechdays";
+    private String secret = "iNtErn";
 
     public String extractUsername(String token)
     {

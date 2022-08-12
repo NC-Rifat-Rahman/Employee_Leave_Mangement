@@ -7,6 +7,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
+@NamedQuery(name = "YearlyLeave.findByYearlyLeaveId",query = "select u from YearlyLeave u where u.yearlyLeaveId=:yearlyLeaveId")
+
 @Data
 @Entity
 @DynamicUpdate
@@ -21,13 +23,14 @@ public class YearlyLeave
     @Column(name="yearly_leave_id")
     private Integer yearlyLeaveId;
 
+    @Column(name="year")
     private Integer year;
 
+    @Column(name="maximum_days")
     private Integer maximumDays;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+
+    @ManyToOne()
     @JoinColumn(
             name="leave_type_id",
             referencedColumnName = "leave_type_id"
