@@ -44,7 +44,7 @@ public class User implements Serializable
     @Column(name="role")
     private String role;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="manager_id")
     private User managerId;
 

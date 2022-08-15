@@ -9,9 +9,7 @@ import com.example.leave_management.Repository.UserRepository;
 import com.example.leave_management.constants.ApplicationConstants;
 import com.example.leave_management.service.UserService;
 import com.example.leave_management.utils.ApplicationUtils;
-import com.example.leave_management.utils.EmailUtils;
 import com.example.leave_management.wrapper.UserWrapper;
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +37,6 @@ public class UserServiceImpl implements UserService
 
     @Autowired
     JwtFilter jwtFilter;
-
-    @Autowired
-    EmailUtils emailUtils;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -98,18 +93,25 @@ public class UserServiceImpl implements UserService
         user.setName(requestMap.get("name"));
         user.setEmail(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
-        user.setStatus("false");
+        user.setStatus("true");
         user.setRole("user");
 
-        user1.setName("manager");
-        user1.setEmail("manager@gmail.com");
-        user1.setPassword("123456");
-        user1.setRole("manager");
-        user1.setStatus("true");
+        if(requestMap.containsKey("name")
+                && requestMap.containsKey("email") && requestMap.containsKey("password"))
+        {
+            user1.setName("manager");
+            user1.setEmail("manager@gmail.com");
+            user1.setPassword("123456");
+            user1.setRole("manager");
+            user1.setStatus("true");
 
-        userRepository.save(user1);
+            userRepository.save(user1);
 
-        user.setManagerId(user1);
+            user.setManagerId(user1);
+        }
+        else
+            user.setManagerId(user1);
+
 
         return user;
     }
@@ -146,6 +148,12 @@ public class UserServiceImpl implements UserService
             log.error("{}",ex);
         }
         return new ResponseEntity<String>("{\"message\":\""+ "Bad Credentials"+"\"}",HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<String> logout(Map<String, String> requestMap)
+    {
+        return new ResponseEntity<String>("Logout Successfull!",HttpStatus.OK);
     }
 
     @Override
@@ -202,24 +210,10 @@ public class UserServiceImpl implements UserService
         return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private void sendMailToAllAdmin(String status, String user, List<String> allAdmin)
-    {
-        allAdmin.remove(jwtFilter.getCurrentUser());
-
-        if(status!=null && status.equalsIgnoreCase("true"))
-        {
-            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),"Account Approved","USER:- "+user+"\n is approved by \n Admin:-"+jwtFilter.getCurrentUser(),allAdmin);
-        }
-        else
-        {
-            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),"Account Disabled","USER:- "+user+"\n is disabled by \n Admin:-"+jwtFilter.getCurrentUser(),allAdmin);
-        }
-    }
-
-    // Validate user. like Users cant access Admin pages
     @Override
-    public ResponseEntity<String> checkToken() {
-        return null;
+    public ResponseEntity<String> checkToken()
+    {
+        return new ResponseEntity<String>("{\"message\":\""+ "Bad Credentials"+"\"}",HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -249,20 +243,5 @@ public class UserServiceImpl implements UserService
         return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @Override
-    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
-        try
-        {
-            User user = userRepository.findByEmail(requestMap.get("email"));
-            if(!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getEmail()))
-                emailUtils.forgotMail(user.getEmail(),"Credentials from",user.getPassword());
-            return ApplicationUtils.getResponseEntity("Check your mail from Credentials",HttpStatus.OK);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }
 

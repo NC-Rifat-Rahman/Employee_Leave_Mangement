@@ -1,7 +1,9 @@
 package com.example.leave_management.serviceImpl;
 
 import com.example.leave_management.JWT.JwtFilter;
+import com.example.leave_management.Model.LeaveApplication;
 import com.example.leave_management.Model.LeaveType;
+import com.example.leave_management.Model.User;
 import com.example.leave_management.Model.YearlyLeave;
 import com.example.leave_management.Repository.YearlyLeaveRepository;
 import com.example.leave_management.constants.ApplicationConstants;
@@ -13,7 +15,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -50,6 +60,8 @@ public class YearlyLeaveServiceImpl implements YearlyLeaveService
         }
         return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
 
     private boolean validateYearlyLeaveMap(Map<String, String> requestMap, boolean validateId)
     {
@@ -88,5 +100,32 @@ public class YearlyLeaveServiceImpl implements YearlyLeaveService
         yearlyLeave.setMaximumDays(Integer.valueOf(requestMap.get("maximum_days")));
         return yearlyLeave;
 
+    }
+
+    @Override
+    public ResponseEntity<String> getEarlyLeave() throws ParseException
+    {
+        YearlyLeave yearlyLeave=new YearlyLeave();
+        //User user=new User();
+
+        //long currentUser= user.getUserId();
+        Long totalLeave = Long.parseLong(yearlyLeaveRepository.findByMaximumDays());
+
+
+
+        LeaveApplication leaveApplication=new LeaveApplication();
+
+        Date f = leaveApplication.getFromDate();
+        //Integer firstDate= Integer.valueOf(String.valueOf(sdf.parse(String.valueOf(f))));
+        Date l = leaveApplication.getToDate();
+        //Integer lastDate= Integer.valueOf(String.valueOf(sdf.parse(String.valueOf(l))));
+
+        long diffInDays = ChronoUnit.DAYS.between((Temporal) f, (Temporal) l);
+
+        long leaveRemaining = Integer.valueOf(String.valueOf(totalLeave))-diffInDays;
+
+        yearlyLeave.setMaximumDays((int) leaveRemaining);
+
+        return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

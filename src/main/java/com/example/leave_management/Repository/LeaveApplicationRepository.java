@@ -23,21 +23,14 @@ public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicati
     @Modifying
     Integer updateStatus(@Param("status") String status,@Param("id") Integer id);
 
-    //List<LeaveApplicationWrapper> getAllLeaves();
+    List<LeaveApplicationWrapper> getAllLeaves();
 
-    //@Query(value = "SELECT :status from LeaveApplication as p")
-    //List<LeaveApplicationWrapper> findByStatus();
+    List<LeaveApplication> findByLeaveTypeName(String name);
 
+    List<LeaveApplication> findByLeaveTypeStatus(String status);
 
-    List<LeaveApplicationWrapper> findByLeaveApplicationByDate(Date date1, Date date2);
+    List<LeaveApplication> findByLeaveApplicationDate(Date date1, Date date2);
 
-    @Query("select status from LeaveApplication")
-    List<String> findByStatus();
-    /*
-    @Query(nativeQuery = true)
-    List<LeaveReportDTO> generateLeaveReport();
-
-     */
 }
 
 

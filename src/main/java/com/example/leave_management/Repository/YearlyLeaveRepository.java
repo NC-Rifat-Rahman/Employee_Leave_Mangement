@@ -10,5 +10,5 @@ public interface YearlyLeaveRepository extends JpaRepository<YearlyLeave,Integer
 {
     YearlyLeave findByYearlyLeaveId(@Param("yearlyLeaveId") String yearlyLeaveId);
 
-    //YearlyLeave findByYearlyLeaveName(String typeName);
+    String findByMaximumDays();
 }

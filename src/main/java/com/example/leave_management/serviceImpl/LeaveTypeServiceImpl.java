@@ -21,9 +21,6 @@ public class LeaveTypeServiceImpl implements LeaveTypeService
     @Autowired
     JwtFilter jwtFilter;
 
-    //@Autowired
-    //LeaveType leaveType;
-
     @Autowired
     LeaveTypeRepository leaveTypeRepository;
 

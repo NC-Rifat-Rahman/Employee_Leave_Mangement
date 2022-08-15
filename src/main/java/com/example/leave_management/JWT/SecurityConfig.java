@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
@@ -54,6 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .logout()
+                .logoutUrl("/user/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+                .clearAuthentication(true)
                 .and().exceptionHandling()
                 .and()
                 .sessionManagement()

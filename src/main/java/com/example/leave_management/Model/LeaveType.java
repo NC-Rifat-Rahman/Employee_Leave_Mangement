@@ -1,6 +1,6 @@
 package com.example.leave_management.Model;
 
-import com.example.leave_management.utils.enums.LeaveTypeStatus;
+
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,13 +27,9 @@ public class LeaveType implements Serializable
     @Column(name="leave_type_id")
     private Integer leaveTypeId;
 
+    @Column(name="name")
     private String name;
-/*
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private LeaveTypeStatus status;
 
- */
     @Column(name="remark")
     private String remark;
 }

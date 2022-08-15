@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @NamedQuery(name = "YearlyLeave.findByYearlyLeaveId",query = "select u from YearlyLeave u where u.yearlyLeaveId=:yearlyLeaveId")
+@NamedQuery(name = "YearlyLeave.findByMaximumDays",query = "select u from YearlyLeave u where u.maximumDays=:maximumDays")
+
 
 @Data
 @Entity

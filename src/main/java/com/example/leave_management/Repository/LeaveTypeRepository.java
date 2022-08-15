@@ -14,6 +14,4 @@ public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer>
     LeaveType findByLeaveTypeId(@Param("leaveTypeId") String leaveTypeId);
 
     LeaveType findByLeaveTypeName(String typeName);
-
-   // List<LeaveType> findAllByLeaveTypeNameContaining(String typeName);
 }

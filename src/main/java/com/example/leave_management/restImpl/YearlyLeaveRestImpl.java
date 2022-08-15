@@ -30,4 +30,18 @@ public class YearlyLeaveRestImpl implements YearlyLeaveRest
         }
         return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<String> getRemainingLeaves()
+    {
+        try
+        {
+            return yearlyLeaveService.getEarlyLeave();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -46,6 +46,20 @@ public class UserRestImpl implements UserRest
         return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> logout(Map<String, String> requestMap)
+    {
+        try
+        {
+            return userService.logout(requestMap);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @Override // Handle exception
     public ResponseEntity<List<UserWrapper>> getAllUser() {
         try
@@ -98,17 +112,6 @@ public class UserRestImpl implements UserRest
         return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @Override
-    public ResponseEntity<String> forgotPassword(Map<String, String> requstMap) {
-        try
-        {
-            return userService.forgotPassword(requstMap);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        return ApplicationUtils.getResponseEntity(ApplicationConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
 }
 
