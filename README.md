@@ -33,6 +33,13 @@ http://localhost:8080/leaveApplication/create
 send leave application for approval: POST
 http://localhost:8080/leaveApplication/update
 
-show all leave with status: GET
-http://localhost:8080/leaveApplication/get
+show all leave with status (date range): GET
+http://localhost:8080/leaveApplication/leaveType/byDate?date1={date}&date2={date}
+
+show all leave with status (status): GET
+http://localhost:8080/leaveApplication/leaveType/status/{status}
+
+show all leave with status (leave type): GET
+http://localhost:8080/leaveApplication/leaveType/{name}
+
  
